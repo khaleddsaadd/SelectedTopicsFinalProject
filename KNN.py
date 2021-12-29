@@ -54,15 +54,14 @@ FP = Confusion_Matrix[0][1]  #FalsePositive
 FN = Confusion_Matrix[1][0]  #FalseNegative
 TN = Confusion_Matrix[1][1]  #TrueNegative
 
-print("\n")
-print(pd.crosstab(y_test, y_pred, rownames = ['Actual'], colnames =['Predicted'], margins = True))
-print("\n")
-print("ConfusionMatrix \n",Confusion_Matrix)
+
+print(pd.crosstab(y_test, y_pred, rownames = ['Actual'], colnames =['Predicted'], margins = True),"\n")
+
+print("ConfusionMatrix \n",Confusion_Matrix,"\n")
 
 
-print("\n")
 Accuracy = (TP + TN) / (TP + FP + TN +FN)
-print(Accuracy)
+print(Accuracy,"\n")
 
 
 Precision = TP / (TP + FP)
