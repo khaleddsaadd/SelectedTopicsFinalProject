@@ -36,21 +36,21 @@ lbl = bank_dataset['y'] #put labels only in y
 
 #divide our bank dataset into training set and testing set
 cls_train, cls_test, lbl_train, lbl_test = train_test_split(cls, lbl, test_size = 0.20)
-print('sasa1')
+
 
 #Train dataset
 sclassifier = SVC(kernel='linear') #linear is used on simple SVM and it can only classify linearly separable data
 sclassifier.fit(cls_train, lbl_train) #We use fit method of SVC to train the algorithm on our dataset
-print('sasa2')
+
 #Prediction
 lbl_pred = sclassifier.predict(cls_test) #predict is a method of the SVC class that make prediction
 
-print('sasa')
+
 
 #Display the confusion matrix
 print(confusion_matrix(lbl_test,lbl_pred))
 print(classification_report(lbl_test,lbl_pred))
 
-print('reemoozz')
+
 
 
