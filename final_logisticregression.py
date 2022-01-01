@@ -10,15 +10,25 @@ Original file is located at
 import pandas as pd
 import numpy as py
 import matplotlib.pyplot as plt
+import numpy as np
 
 # load dataset
 df = pd.read_csv("bank-full.csv")
 df['y'].replace(['no', 'yes' , 'unkown'],[0, 1,-1], inplace=True)
-
+df['housing'].replace(['no', 'yes' , 'unkown'],[0, 1,-1], inplace=True)
+df['loan'].replace(['no', 'yes' , 'unkown'],[0, 1,-1], inplace=True)
+df['job'].replace(["admin.","unknown","unemployed","management","housemaid","entrepreneur"
+,"student","blue-collar","self-employed","retired","technician","services"],
+[1,2,3,4,5,6,7,8,9,10,11,12],inplace=True)
+df['marital'].replace(["married","divorced","single"],[1,2,3],inplace=True)
+df['education'].replace(["unknown","secondary","primary","tertiary"],[0,1,2,3],inplace=True)
+df['default'].replace(['no', 'yes' , 'unkown'],[0, 1,-1], inplace=True)
+df['contact'].replace(["unknown","telephone","cellular"],[0, 1,2], inplace=True)
+df['poutcome'].replace(["unknown","other","failure","success"],[0,1,2,3],inplace=True)
 print(df.head)
 
-x=df.iloc[:,[0,5]].values
-y=df.iloc[:,16].values
+x=df.iloc[:,[0,1,2,3,4,5,6,7,11]].values
+y = df['y']
 print(x)
 
 from sklearn.model_selection import train_test_split
@@ -29,7 +39,16 @@ from sklearn.preprocessing import StandardScaler
 
 df["age"] = pd.to_numeric(df["age"], downcast="float")
 df["balance"] = pd.to_numeric(df["balance"], downcast="float")
-df["job"] = pd.to_numeric(df["balance"], downcast="float")
+
+df["job"] = pd.to_numeric(df["job"], downcast="float")
+df["marital"] = pd.to_numeric(df["marital"], downcast="float")
+df["education"] = pd.to_numeric(df["education"], downcast="float")
+df["default"] = pd.to_numeric(df["default"], downcast="float")
+df["housing"] = pd.to_numeric(df["housing"], downcast="float")
+
+df["loan"] = pd.to_numeric(df["loan"], downcast="float")
+df["contact"] = pd.to_numeric(df["contact"], downcast="float")
+df["duration"] = pd.to_numeric(df["duration"], downcast="float")
 
 sc_x = StandardScaler()
 xtrain = sc_x.fit_transform(xtrain) 
@@ -69,13 +88,16 @@ print ("Ready-made Accuracy= ", accuracy_score(ytest, y_pred))
 MyAccuracy = (TP+TN) / (TP+FP+TN+FN)
 print("Calculated Accuracy= ", MyAccuracy)
 
-from matplotlib.colors import ListedColormap
-X_set, y_set = xtest, ytest
-
-from matplotlib.colors import ListedColormap
-
+# Commented out IPython magic to ensure Python compatibility.
 # %matplotlib inline
-# pd.crosstab(df.job,df.y).plot(kind='bar')
-# plt.title('Purchase Frequency for Job Title')
-# plt.xlabel('Job')
-# plt.ylabel('Frequency of Purchase')
+pd.crosstab(df.job,df.y).plot(kind='bar')
+plt.title('Purchase Frequency for Job Title')
+plt.xlabel('Job')
+plt.ylabel('Frequency of Purchase')
+plt.savefig('purchase_fre_job')
+
+pd.crosstab(df.education,df.y).plot(kind='bar')
+plt.title('Purchase Frequency for Education')
+plt.xlabel('education')
+plt.ylabel('Frequency of Purchase')
+plt.savefig('purchase_fre_job')
