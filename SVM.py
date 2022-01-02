@@ -1,10 +1,12 @@
+from enum import auto
 import pandas as pn
 import numpy as ny
 import matplotlib.pyplot as plot 
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
+from sklearn import svm
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 
 
 #Importing our dataset (bank-full dataset)
@@ -14,7 +16,7 @@ bank_dataset = pn.read_csv("bank-full.csv")
 # print(bank_dataset.shape)
 
 #To display our dataset as (pandas.core.frame.DataFrame)
-# print(bank_dataset.head())
+print(bank_dataset.head())
 
 labEn = LabelEncoder()
 bank_dataset['job'] = labEn.fit_transform(bank_dataset['job'])
@@ -35,11 +37,14 @@ lbl = bank_dataset['y'] #put labels only in y
 
 
 #divide our bank dataset into training set and testing set
-cls_train, cls_test, lbl_train, lbl_test = train_test_split(cls, lbl, test_size = 0.20)
+cls_train, cls_test, lbl_train, lbl_test = train_test_split(cls, lbl, test_size = 0.30)
 
+sc = StandardScaler()
+cls_train = sc.fit_transform(cls_train)
+cls_test = sc.transform(cls_test)
 
 #Train dataset
-sclassifier = SVC(kernel='linear') #linear is used on simple SVM and it can only classify linearly separable data
+sclassifier = svm.SVC(kernel='linear') #linear is used on simple SVM and it can only classify linearly separable data
 sclassifier.fit(cls_train, lbl_train) #We use fit method of SVC to train the algorithm on our dataset
 
 #Prediction
@@ -50,6 +55,7 @@ lbl_pred = sclassifier.predict(cls_test) #predict is a method of the SVC class t
 #Display the confusion matrix
 print(confusion_matrix(lbl_test,lbl_pred))
 print(classification_report(lbl_test,lbl_pred))
+
 
 
 
