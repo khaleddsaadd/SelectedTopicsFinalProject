@@ -70,3 +70,29 @@ F1_Score = 2 *( (Precision * Recall) /(Precision + Recall) )
 print("Precision: \n", Precision)
 print("Recall: \n", Recall)
 print("F1: \n", F1_Score)
+
+
+neighbors_valueRange = np.arange(1, 9)
+train_accuracy = np.empty(len(neighbors_valueRange))
+test_accuracy = np.empty(len(neighbors_valueRange))
+
+for i, k in enumerate(neighbors_valueRange):
+    # We instantiate the classifier
+    knn = KNeighborsClassifier(n_neighbors=k)
+    # Fit the classifier to the training data
+    knn.fit(X_train,y_train)
+        # Compute accuracy on the training set
+    train_accuracy[i] = knn.score(X_train, y_train)
+
+    # Compute accuracy on the testing set
+    test_accuracy[i] = knn.score(X_test, y_test)
+
+# Visualization of k values vs accuracy
+
+plt.title('k-NN: Varying Number of Neighbors')
+plt.plot(neighbors_valueRange, test_accuracy, label = 'Testing Accuracy')
+plt.plot(neighbors_valueRange, train_accuracy, label = 'Training Accuracy')
+plt.legend()
+plt.xlabel('Number of Neighbors')
+plt.ylabel('Accuracy')
+plt.show()
