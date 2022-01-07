@@ -62,7 +62,7 @@ sclassifier.fit(cls_train, lbl_train) #We use fit method of SVC to train the alg
 #Prediction
 lbl_pred = sclassifier.predict(cls_test) #predict is a method of the SVC class that make prediction
 
-DataFrames = ny.arange(0, len(cls_test))
+
 
 plty=ny.array(cls_test)
 pltx=ny.array(lbl_test)
@@ -71,10 +71,10 @@ print(len(pltx))
 print(len(plty))
 
 plot.title('Dataset')
-plot.plot(DataFrames , pltx,  'b.',label="Test Data")
-plot.plot(DataFrames,lbl_pred, 'ro', label="Pred Data")
-plot.xlabel('DataFrames')
-plot.ylabel('Classes')
+plot.plot(pltx, plty , 'b.',label="Test Data")
+plot.plot(lbl_pred, plty,'ro', label="Pred Data")
+plot.xlabel('Labels')
+plot.ylabel('Data Frames')
 plot.show()
 
 #Display the confusion matrix
