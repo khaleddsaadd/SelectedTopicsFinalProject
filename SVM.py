@@ -34,7 +34,19 @@ bank_dataset['poutcome']= labEn.fit_transform(bank_dataset['poutcome'])
 cls = bank_dataset.drop('y', axis=1) #drop the label and save classes in cls
 lbl = bank_dataset['y'] #put labels only in y
 
+# DataFrames = ny.arange(0, len(cls))
 
+# plty=ny.array(cls)
+# pltx=ny.array(lbl)
+
+# print(len(pltx))
+# print(len(plty))
+
+# plot.title('Dataset')
+# plot.plot(DataFrames, plty)
+# plot.xlabel('DataFrames')
+# plot.ylabel('Classes')
+# plot.show()
 
 #divide our bank dataset into training set and testing set
 cls_train, cls_test, lbl_train, lbl_test = train_test_split(cls, lbl, test_size = 0.30)
@@ -44,13 +56,26 @@ cls_train = sc.fit_transform(cls_train)
 cls_test = sc.transform(cls_test)
 
 #Train dataset
-sclassifier = svm.SVC(kernel='linear') #linear is used on simple SVM and it can only classify linearly separable data
+sclassifier = svm.SVC(kernel='rbf') #Gaussian kernel
 sclassifier.fit(cls_train, lbl_train) #We use fit method of SVC to train the algorithm on our dataset
 
 #Prediction
 lbl_pred = sclassifier.predict(cls_test) #predict is a method of the SVC class that make prediction
 
+DataFrames = ny.arange(0, len(cls_test))
 
+plty=ny.array(cls_test)
+pltx=ny.array(lbl_test)
+
+print(len(pltx))
+print(len(plty))
+
+plot.title('Dataset')
+plot.plot(DataFrames , pltx,  'b.',label="Test Data")
+plot.plot(DataFrames,lbl_pred, 'ro', label="Pred Data")
+plot.xlabel('DataFrames')
+plot.ylabel('Classes')
+plot.show()
 
 #Display the confusion matrix
 print(confusion_matrix(lbl_test,lbl_pred))
