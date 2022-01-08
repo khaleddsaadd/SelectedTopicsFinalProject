@@ -24,8 +24,7 @@ df['y'].replace(['no', 'yes' , 'unkown'],[0, 1,-1], inplace=True)
 
 print(df.head)
 
-# 0: age, 1: job, 3:education
-X = df.iloc[:, [0, 1, 3]].values
+X=df.iloc[:,[0,1,2,3,4,5,6,7,11]].values
 y = df.iloc[:, 16].values
 
 print(X)
