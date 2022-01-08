@@ -78,10 +78,20 @@ plot.ylabel('Data Frames')
 plot.show()
 
 #Display the confusion matrix
+cm = confusion_matrix(lbl_test,lbl_pred)
 print(confusion_matrix(lbl_test,lbl_pred))
 print(classification_report(lbl_test,lbl_pred))
 
+TP = cm[0][0]  #TruePositive
+FP = cm[0][1]  #FalsePositive
+FN = cm[1][0]  #FalseNegative
+TN = cm[1][1]  #TrueNegative
 
-
-
-
+Acc = (TP + TN) / (TP + FP + TN +FN)
+Pre = TP / (TP + FP)
+Recall = TP / (TP + FN)
+F1_Score = 2 *( (Pre * Recall) /(Pre + Recall) )
+print("Precision:", Pre)
+print("Recall:", Recall)
+print("F1:", F1_Score)
+print("Accuracy:",Acc)
