@@ -1,6 +1,10 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib as plt
+import tf_slim as slim
+import tensorflow.compat.v1 as tf
+import tensorflow as tf
+import tensorflow.contrib.learn as learn
 
 df=pd.read_csv("bank-full.csv")
 df['y'].replace(['no', 'yes' , 'unkown'],[0, 1,-1], inplace=True)
@@ -37,3 +41,14 @@ print(df.head)
 # %matplotlib inline
 sns.countplot(data=df,x="y")
 sns.pairplot(data=df,hue="y")
+
+#Standardization
+
+
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+feature_columns = [tf.contrib.layers.real_valued_column("", dimension=1)]
+classifier = learn.DNNClassifier(feature_columns=feature_columns,hidden_units=[10, 20, 10], n_classes=2)
+classifier.fit(X_train, y_train, steps=200, batch_size=20)
+note_predictions = list(classifier.predict(X_test))
