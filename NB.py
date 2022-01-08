@@ -90,5 +90,5 @@ for i, j in itertools.product(range(cm.shape[0]),range(cm.shape[1])):
     
 plt.ylabel('True label (Recall)')
 plt.xlabel('Predicted label (Precision)')
-plt.title('Logistic Regression with TFIDF | Confusion Matrix')
+plt.title('Naive Bayes | Confusion Matrix')
 plt.colorbar();
