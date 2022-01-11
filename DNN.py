@@ -45,7 +45,14 @@ sns.countplot(data=df,x="y")
 sns.pairplot(data=df,hue="y")
 
 #Standardization
-
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(df.drop("y",axis=1))
+scaled_fea = scaler.fit_transform(df.drop("y",axis=1))
+df_1=pd.DataFrame(scaled_fea,columns=df.columns[:-1])
+df_1.head()
+X=df_1
+y=df["y"]
 
 
 

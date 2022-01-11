@@ -6,8 +6,9 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
-
-
+import itertools 
+from itertools import product
+ 
 
 # load dataset
 df = pd.read_csv("bank-full.csv")
@@ -26,7 +27,7 @@ df['y'].replace(['no', 'yes' , 'unkown'],[0, 1,-1], inplace=True)
 print(df.head)
 
 # 0: age, 1: job, 3:education
-X = df.iloc[:, [0, 1, 3]].values
+X=df.iloc[:,[0,1,2,3,4,5,6,7,11]].values
 y = df.iloc[:, 16].values
 
 #Print Attributes and classes
@@ -77,3 +78,17 @@ print("Recall: \n", Recall)
 #Calculate FScore 
 F1_Score = 2 *( (Precision * Recall) /(Precision + Recall) )
 print("F1: \n", F1_Score)
+
+cm = confusion_matrix(y_test, y_pred)
+plt.imshow(cm, interpolation='nearest')
+
+for i, j in itertools.product(range(cm.shape[0]),range(cm.shape[1])):
+    plt.text(j, i, cm[i, j],
+             horizontalalignment="center",
+             color="white")
+
+    
+plt.ylabel('True label (Recall)')
+plt.xlabel('Predicted label (Precision)')
+plt.title('Naive Bayes | Confusion Matrix')
+plt.colorbar();
