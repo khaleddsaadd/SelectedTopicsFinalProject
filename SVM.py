@@ -7,6 +7,7 @@ from sklearn import svm
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
+from sklearn.utils import resample
 
 
 #Importing our dataset (bank-full dataset)
@@ -30,17 +31,30 @@ bank_dataset['month']= labEn.fit_transform(bank_dataset['month'])
 bank_dataset['y']= labEn.fit_transform(bank_dataset['y'])
 bank_dataset['poutcome']= labEn.fit_transform(bank_dataset['poutcome'])
 
+bank_dataset_majority = bank_dataset[bank_dataset.y==0]
+bank_dataset_minority = bank_dataset[bank_dataset.y==1]
+ 
+# Upsample minority class
+bank_dataset_minority_upsampled = resample(bank_dataset_minority, 
+                                 replace=True,      # sample with replacement
+                                 n_samples=36548)   # to match majority class
+                              
+ 
+#Combine majority class with upsampled minority class
+bank_dataset_upsampled = pn.concat([bank_dataset_majority, bank_dataset_minority_upsampled])
+print(bank_dataset_upsampled['y'].value_counts())
+# bank_dataset_upsampled['y'].value_counts().plot(kind='bar')
+
+
+
+
 #These 2 lines are to divide dataset into classes and labels
-cls = bank_dataset.drop('y', axis=1) #drop the label and save classes in cls
-lbl = bank_dataset['y'] #put labels only in y
+cls = bank_dataset_upsampled.drop('y', axis=1) #drop the label and save classes in cls
+lbl = bank_dataset_upsampled['y'] #put labels only in y
 
 # DataFrames = ny.arange(0, len(cls))
 
 # plty=ny.array(cls)
-# pltx=ny.array(lbl)
-
-# print(len(pltx))
-# print(len(plty))
 
 # plot.title('Dataset')
 # plot.plot(DataFrames, plty)
@@ -62,13 +76,11 @@ sclassifier.fit(cls_train, lbl_train) #We use fit method of SVC to train the alg
 #Prediction
 lbl_pred = sclassifier.predict(cls_test) #predict is a method of the SVC class that make prediction
 
-
-
 plty=ny.array(cls_test)
 pltx=ny.array(lbl_test)
 
-print(len(pltx))
-print(len(plty))
+# print(len(pltx))
+# print(len(plty))
 
 plot.title('Dataset')
 plot.plot(pltx, plty , 'b.',label="Test Data")
