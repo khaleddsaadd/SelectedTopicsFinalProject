@@ -43,7 +43,7 @@ bank_dataset_minority_upsampled = resample(bank_dataset_minority,
 #Combine majority class with upsampled minority class
 bank_dataset_upsampled = pn.concat([bank_dataset_majority, bank_dataset_minority_upsampled])
 print(bank_dataset_upsampled['y'].value_counts())
-# bank_dataset_upsampled['y'].value_counts().plot(kind='bar')
+bank_dataset_upsampled['y'].value_counts().plot(kind='bar')
 
 
 
